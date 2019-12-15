@@ -27,11 +27,6 @@ int main() {
   string map_file_ = "../data/highway_map.csv";
   // The max s value before wrapping around the track back to 0
   double max_s = 6945.554;
-
-
-  int lane = 1;
-  double ref_vel = 49.5;
-
   std::ifstream in_map_(map_file_.c_str(), std::ifstream::in);
 
   string line;
@@ -54,10 +49,11 @@ int main() {
     map_waypoints_dy.push_back(d_y);
   }
 
+  int lane = 1;
+  double ref_vel = 0.0;
 
-
-  h.onMessage([&map_waypoints_x,&map_waypoints_y,&map_waypoints_s,
-               &map_waypoints_dx,&map_waypoints_dy]
+  h.onMessage([&ref_vel, &map_waypoints_x,&map_waypoints_y,&map_waypoints_s,
+               &map_waypoints_dx,&map_waypoints_dy, &lane]
               (uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length,
                uWS::OpCode opCode) {
     // "42" at the start of the message means there's a websocket message event.
@@ -120,14 +116,23 @@ int main() {
 
               check_car_s+=((double)prev_size*0.02*check_speed);
 
-              if((check_car_s > car_s) && ((check_car_s - car_s) < 30))
+              if((check_car_s > car_s) && ((check_car_s - car_s) < 50))
               {
-                ref_vel = 29.5;
                 too_close = true;
+                if(lane>0){
+                  lane = 0;
+                }
               }
 
 
             }
+          }
+
+          if(too_close){
+            ref_vel -=.5;
+          }
+          else if(ref_vel < 49.5){
+            ref_vel += .5;
           }
 
 
@@ -166,7 +171,7 @@ int main() {
             ptsy.push_back(ref_y);
 
           }
-          int lane = 1 ;
+          //int lane = 1 ;
           vector<double> next_wp0 = getXY(car_s + 30, (2 + 4 * lane), map_waypoints_s, map_waypoints_x, map_waypoints_y);
           vector<double> next_wp1 = getXY(car_s + 60, (2 + 4 * lane), map_waypoints_s, map_waypoints_x, map_waypoints_y);
           vector<double> next_wp2 = getXY(car_s + 90, (2 + 4 * lane), map_waypoints_s, map_waypoints_x, map_waypoints_y);
@@ -205,7 +210,7 @@ int main() {
           
           for(int i = 1; i <= 50 - previous_path_x.size(); i++){
 
-            double ref_vel = 49.5;
+            //double ref_vel = 49.5;
 
             double N = (target_dist/(0.02*ref_vel/2.24));
             double x_point = x_add_on + (target_x)/N;
