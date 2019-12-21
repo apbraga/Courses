@@ -99,51 +99,51 @@ int main() {
            * TODO: define a path made up of (x,y) points that the car will visit
            *   sequentially every .02 seconds
            */
+
+          // Get last point of previous path planner
           if(prev_size >0){
             car_s = end_path_s;
           }
-
+          
+          //Initialize logic variable for behaviour planning
           bool too_close = false;
           bool block_left = false;
           bool block_right = false;
-          double lane_speed = 50;
 
+          //iterates over all vehicles found by sensor fusion
           for(int i = 0; i< sensor_fusion.size(); i++){
+            //get information from tracked vehicle
             double vx = sensor_fusion[i][3];
             double vy = sensor_fusion[i][4];
             double check_speed = sqrt(vx*vx + vy*vy);
             double check_car_s = sensor_fusion[i][5];
             float d = sensor_fusion[i][6];
+            //updates position of tracked vehicle in the future
             check_car_s+=((double)prev_size*0.02*check_speed);
 
-            if(d < (2+4*lane+2)&& d > (2+4*lane-2)){
-              if((check_car_s > car_s) && ((check_car_s - car_s) < 50))
-              {
-                lane_speed = check_speed;
-                too_close = true;
-              }
+            //Check if there is close vehicle ahead
+            if(d < (2+4*lane+2)&& d > (2+4*lane-2)&&(check_car_s > car_s) && ((check_car_s - car_s) < 50)){
+              too_close = true;
             }
-
+            //check if there is a close vehicle in the left lane
             if(lane !=0 && d < (2+4*lane-2) && d >= (2+4*(lane-1)-2)&& (check_car_s  - car_s < 50 ) && (check_car_s- car_s> -20)){
               block_left = true;
-
             }
-
+            
+            //check if there is a close vehicle in the right lane
             if(lane !=2 && d > (2+4*lane+2) && d <= (2+4*(lane+1)+2) &&(check_car_s - car_s < 50 ) && (check_car_s- car_s > -20)){
               block_right = true;
-
             }
 
+            //check if there are lanes available
             if(lane == 0){
               block_left = true;
             }else if (lane == 2){
               block_right = true;
             }
-
-
-
           }
 
+          //implements the behavior for path planner
           if(too_close && !block_left){
             lane--;
           }else if(too_close && !block_right){
@@ -153,19 +153,20 @@ int main() {
           }else if(!too_close && ref_vel < 49){
             ref_vel += 0.224;
           }
-
+          
+          //prints lane states
           printf("block_left: %d Car_ahead: %d block_right: %d \n", block_left,too_close, block_right);
 
-
-
-
+          //initiates vector for spline calculation
           vector<double> ptsx;
           vector<double> ptsy;
-
+          
+          //gets vehicle state
           double ref_x = car_x;
           double ref_y = car_y;
           double ref_yaw = deg2rad(car_yaw);
 
+          // get unused path points from previous cycle closest to vehicle
           if( prev_size < 2){
             double prev_car_x = car_x - cos(car_yaw);
             double prev_car_y = car_y - sin(car_yaw);
@@ -192,6 +193,8 @@ int main() {
             ptsy.push_back(ref_y);
 
           }
+
+          //creates 3 way points for the spline to cover
           vector<double> next_wp0 = getXY(car_s + 30, (2 + 4 * lane), map_waypoints_s, map_waypoints_x, map_waypoints_y);
           vector<double> next_wp1 = getXY(car_s + 60, (2 + 4 * lane), map_waypoints_s, map_waypoints_x, map_waypoints_y);
           vector<double> next_wp2 = getXY(car_s + 90, (2 + 4 * lane), map_waypoints_s, map_waypoints_x, map_waypoints_y);
@@ -204,7 +207,8 @@ int main() {
           ptsy.push_back(next_wp0[1]);
           ptsy.push_back(next_wp1[1]);
           ptsy.push_back(next_wp2[1]);
-
+          
+          //changes the reference coordinate
           for(int i = 0; i < ptsx.size(); i++){
             double shift_x = ptsx[i]-ref_x;
             double shift_y = ptsy[i]-ref_y;
@@ -213,25 +217,26 @@ int main() {
             ptsy[i] = (shift_x * sin(0-ref_yaw)+shift_y * cos(0-ref_yaw));
 
           }
-
+          
+          //calculates a curve passing through all the way points
           tk::spline s;
-
           s.set_points(ptsx, ptsy);
-
+          
+          //include remaining path points to the next cycle
           for (int i = 0 ; i < previous_path_x.size(); i++){
             next_x_vals.push_back(previous_path_x[i]);
             next_y_vals.push_back(previous_path_y[i]);
           }
-
+          
+          // initiate target variables
           double target_x = 30.0;
           double target_y = s(target_x);
           double target_dist = sqrt(target_x*target_x+target_y*target_y);
 
           double x_add_on = 0;
           
+          //add new values to path planner
           for(int i = 1; i <= 50 - previous_path_x.size(); i++){
-
-            //double ref_vel = 49.5;
 
             double N = (target_dist/(0.02*ref_vel/2.24));
             double x_point = x_add_on + (target_x)/N;
