@@ -104,36 +104,57 @@ int main() {
           }
 
           bool too_close = false;
+          bool block_left = false;
+          bool block_right = false;
+          double lane_speed = 50;
 
           for(int i = 0; i< sensor_fusion.size(); i++){
-
+            double vx = sensor_fusion[i][3];
+            double vy = sensor_fusion[i][4];
+            double check_speed = sqrt(vx*vx + vy*vy);
+            double check_car_s = sensor_fusion[i][5];
             float d = sensor_fusion[i][6];
+            check_car_s+=((double)prev_size*0.02*check_speed);
+
             if(d < (2+4*lane+2)&& d > (2+4*lane-2)){
-              double vx = sensor_fusion[i][3];
-              double vy = sensor_fusion[i][4];
-              double check_speed = sqrt(vx*vx + vy*vy);
-              double check_car_s = sensor_fusion[i][5];
-
-              check_car_s+=((double)prev_size*0.02*check_speed);
-
               if((check_car_s > car_s) && ((check_car_s - car_s) < 50))
               {
+                lane_speed = check_speed;
                 too_close = true;
-                if(lane>0){
-                  lane = 0;
-                }
               }
+            }
 
+            if(d < (2+4*lane-2)&& (check_car_s  - car_s < 50 ) && (check_car_s- car_s> -20)){
+              block_left = true;
 
             }
+
+            if(d > (2+4*lane+2)&&(check_car_s - car_s < 50 ) && (check_car_s- car_s > -20)){
+              block_right = true;
+
+            }
+
+            if(lane == 0){
+              block_left = true;
+            }else if (lane == 2){
+              block_right = true;
+            }
+
+
+
           }
 
-          if(too_close){
-            ref_vel -=.5;
+          if(too_close && !block_left){
+            lane--;
+          }else if(too_close && !block_right){
+            lane++;
+          }else if(too_close){
+            ref_vel -=0.224;
+          }else if(!too_close && ref_vel < 49){
+            ref_vel += 0.224;
           }
-          else if(ref_vel < 49.5){
-            ref_vel += .5;
-          }
+
+          printf("block_left: %d Car_ahead: %d block_right: %d \n", block_left,too_close, block_right);
 
 
 
@@ -171,10 +192,10 @@ int main() {
             ptsy.push_back(ref_y);
 
           }
-          //int lane = 1 ;
           vector<double> next_wp0 = getXY(car_s + 30, (2 + 4 * lane), map_waypoints_s, map_waypoints_x, map_waypoints_y);
           vector<double> next_wp1 = getXY(car_s + 60, (2 + 4 * lane), map_waypoints_s, map_waypoints_x, map_waypoints_y);
           vector<double> next_wp2 = getXY(car_s + 90, (2 + 4 * lane), map_waypoints_s, map_waypoints_x, map_waypoints_y);
+          
 
           ptsx.push_back(next_wp0[0]);
           ptsx.push_back(next_wp1[0]);
