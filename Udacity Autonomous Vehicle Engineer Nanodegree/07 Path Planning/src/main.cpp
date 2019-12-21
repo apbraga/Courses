@@ -124,12 +124,12 @@ int main() {
               }
             }
 
-            if(d < (2+4*lane-2)&& (check_car_s  - car_s < 50 ) && (check_car_s- car_s> -20)){
+            if(lane !=0 && d < (2+4*lane-2) && d >= (2+4*(lane-1)-2)&& (check_car_s  - car_s < 50 ) && (check_car_s- car_s> -20)){
               block_left = true;
 
             }
 
-            if(d > (2+4*lane+2)&&(check_car_s - car_s < 50 ) && (check_car_s- car_s > -20)){
+            if(lane !=2 && d > (2+4*lane+2) && d <= (2+4*(lane+1)+2) &&(check_car_s - car_s < 50 ) && (check_car_s- car_s > -20)){
               block_right = true;
 
             }
@@ -149,7 +149,7 @@ int main() {
           }else if(too_close && !block_right){
             lane++;
           }else if(too_close){
-            ref_vel -=0.224;
+            ref_vel -=0.5;
           }else if(!too_close && ref_vel < 49){
             ref_vel += 0.224;
           }
