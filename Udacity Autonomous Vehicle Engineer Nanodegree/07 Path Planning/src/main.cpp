@@ -1,3 +1,7 @@
+// Alex Braga | Udacity Autonomous Driving Nanodegree
+// Project | Path Planning
+// Code based on Udacity Q&A
+
 #include <uWS/uWS.h>
 #include <fstream>
 #include <iostream>
