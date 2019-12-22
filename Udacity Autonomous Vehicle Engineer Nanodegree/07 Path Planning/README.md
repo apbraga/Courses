@@ -1,5 +1,86 @@
-# CarND-Path-Planning-Project
+# Highway Path Planning Path Planning
+
+The goal of this project is to project path waypoints to a simulated vehicle on highway to safely navigate through traffic changing lanes when traffic build up ahead.
+
+## Behaviour Planning
+
+At first we iterate over all sensor fusion data (surrounding vehicles info provided by simulator) and check the 
+
+1. Check if there any vehicle ahead -> If yes, flip too_close flag to true
+2. Check if there is any vehicle to the right lane or there is no more lanes to the right -> If yes, flip block_right flag to true
+3. Check if there is any vehicle in the left lane there is no more lanes to the left-> If yes, flip block_left flag to true
+
+```shell
+for(int i = 0; i< sensor_fusion.size(); i++){
+            //get information from tracked vehicle
+            double vx = sensor_fusion[i][3];
+            double vy = sensor_fusion[i][4];
+            double check_speed = sqrt(vx*vx + vy*vy);
+            double check_car_s = sensor_fusion[i][5];
+            float d = sensor_fusion[i][6];
+            //updates position of tracked vehicle in the future
+            check_car_s+=((double)prev_size*0.02*check_speed);
+
+            //Check if there is close vehicle ahead
+            if(d < (2+4*lane+2)&& d > (2+4*lane-2)&&(check_car_s > car_s) && ((check_car_s - car_s) < 50)){
+              too_close = true;
+            }
+            //check if there is a close vehicle in the left lane
+            if(lane !=0 && d < (2+4*lane-2) && d >= (2+4*(lane-1)-2)&& (check_car_s  - car_s < 50 ) && (check_car_s- car_s> -20)){
+              block_left = true;
+            }
+            
+            //check if there is a close vehicle in the right lane
+            if(lane !=2 && d > (2+4*lane+2) && d <= (2+4*(lane+1)+2) &&(check_car_s - car_s < 50 ) && (check_car_s- car_s > -20)){
+              block_right = true;
+            }
+
+            //check if there are lanes available
+            if(lane == 0){
+              block_left = true;
+            }else if (lane == 2){
+              block_right = true;
+            }
+          }
+```
+
+This will provide the information necessary to change the vehicle state by the following logic:
+
+| too_close | blockleft | block_right | Behaviour |
+| 0 | * | * | Accelerate until Max_speed |
+| 1 | 0 | * | Turn Left |
+| 1 | 1 | 0 | Turn Right |
+| 1 | 1 | 1 | Brake |
+
+
+```shell
+if(too_close && !block_left){
+            lane--;
+          }else if(too_close && !block_right){
+            lane++;
+          }else if(too_close){
+            ref_vel -=0.5;
+          }else if(!too_close && ref_vel < 49){
+            ref_vel += 0.224;
+          }
+```
+
+## Trajectory Generation
+
+Now that the behaviour is decided, the waypoints needs to be generated to perform the action.
+For taht the following steps are applied:
+
+1. Get last points from previous generated trajectory
+2. Get future way points at 30,60 and 90 meters ahead
+3. Convert points to vehicle coordinates
+4. Use points to create a curve for the path using a spline
+5. Create a path plan for the following step reusing old trajectory and new way points
+6. Pass waypoints to simulator
+
+-----------------------------------------------------------------------------
+# CarND-Path-Planning-Project | Provided by Udacity
 Self-Driving Car Engineer Nanodegree Program
+Check latest repository at https://github.com/udacity/CarND-Path-Planning-Project.
    
 ### Simulator.
 You can download the Term3 Simulator which contains the Path Planning Project from the [releases tab (https://github.com/udacity/self-driving-car-sim/releases/tag/T3_v1.2).  
