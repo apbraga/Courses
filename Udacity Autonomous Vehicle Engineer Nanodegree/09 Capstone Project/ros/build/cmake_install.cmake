@@ -131,6 +131,7 @@ endif()
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   include("/home/apbraga/Courses/Udacity Autonomous Vehicle Engineer Nanodegree/09 Capstone Project/ros/build/gtest/cmake_install.cmake")
+  include("/home/apbraga/Courses/Udacity Autonomous Vehicle Engineer Nanodegree/09 Capstone Project/ros/build/dbw_mkz_msgs/cmake_install.cmake")
   include("/home/apbraga/Courses/Udacity Autonomous Vehicle Engineer Nanodegree/09 Capstone Project/ros/build/camera_info_publisher/cmake_install.cmake")
   include("/home/apbraga/Courses/Udacity Autonomous Vehicle Engineer Nanodegree/09 Capstone Project/ros/build/styx/cmake_install.cmake")
   include("/home/apbraga/Courses/Udacity Autonomous Vehicle Engineer Nanodegree/09 Capstone Project/ros/build/styx_msgs/cmake_install.cmake")

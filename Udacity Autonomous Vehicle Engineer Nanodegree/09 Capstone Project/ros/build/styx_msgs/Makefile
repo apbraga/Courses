@@ -114,6 +114,16 @@ edit_cache/fast: edit_cache
 
 .PHONY : edit_cache/fast
 
+# Special rule for the target list_install_components
+list_install_components:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
+.PHONY : list_install_components
+
+# Special rule for the target list_install_components
+list_install_components/fast: list_install_components
+
+.PHONY : list_install_components/fast
+
 # Special rule for the target test
 test:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
@@ -124,16 +134,6 @@ test:
 test/fast: test
 
 .PHONY : test/fast
-
-# Special rule for the target list_install_components
-list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
-.PHONY : list_install_components
-
-# Special rule for the target list_install_components
-list_install_components/fast: list_install_components
-
-.PHONY : list_install_components/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -168,36 +168,6 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
-styx_msgs/CMakeFiles/styx_msgs_generate_messages.dir/rule:
-	cd "/home/apbraga/Courses/Udacity Autonomous Vehicle Engineer Nanodegree/09 Capstone Project/ros/build" && $(MAKE) -f CMakeFiles/Makefile2 styx_msgs/CMakeFiles/styx_msgs_generate_messages.dir/rule
-.PHONY : styx_msgs/CMakeFiles/styx_msgs_generate_messages.dir/rule
-
-# Convenience name for target.
-styx_msgs_generate_messages: styx_msgs/CMakeFiles/styx_msgs_generate_messages.dir/rule
-
-.PHONY : styx_msgs_generate_messages
-
-# fast build rule for target.
-styx_msgs_generate_messages/fast:
-	cd "/home/apbraga/Courses/Udacity Autonomous Vehicle Engineer Nanodegree/09 Capstone Project/ros/build" && $(MAKE) -f styx_msgs/CMakeFiles/styx_msgs_generate_messages.dir/build.make styx_msgs/CMakeFiles/styx_msgs_generate_messages.dir/build
-.PHONY : styx_msgs_generate_messages/fast
-
-# Convenience name for target.
-styx_msgs/CMakeFiles/_styx_msgs_generate_messages_check_deps_TrafficLight.dir/rule:
-	cd "/home/apbraga/Courses/Udacity Autonomous Vehicle Engineer Nanodegree/09 Capstone Project/ros/build" && $(MAKE) -f CMakeFiles/Makefile2 styx_msgs/CMakeFiles/_styx_msgs_generate_messages_check_deps_TrafficLight.dir/rule
-.PHONY : styx_msgs/CMakeFiles/_styx_msgs_generate_messages_check_deps_TrafficLight.dir/rule
-
-# Convenience name for target.
-_styx_msgs_generate_messages_check_deps_TrafficLight: styx_msgs/CMakeFiles/_styx_msgs_generate_messages_check_deps_TrafficLight.dir/rule
-
-.PHONY : _styx_msgs_generate_messages_check_deps_TrafficLight
-
-# fast build rule for target.
-_styx_msgs_generate_messages_check_deps_TrafficLight/fast:
-	cd "/home/apbraga/Courses/Udacity Autonomous Vehicle Engineer Nanodegree/09 Capstone Project/ros/build" && $(MAKE) -f styx_msgs/CMakeFiles/_styx_msgs_generate_messages_check_deps_TrafficLight.dir/build.make styx_msgs/CMakeFiles/_styx_msgs_generate_messages_check_deps_TrafficLight.dir/build
-.PHONY : _styx_msgs_generate_messages_check_deps_TrafficLight/fast
-
-# Convenience name for target.
 styx_msgs/CMakeFiles/_styx_msgs_generate_messages_check_deps_Lane.dir/rule:
 	cd "/home/apbraga/Courses/Udacity Autonomous Vehicle Engineer Nanodegree/09 Capstone Project/ros/build" && $(MAKE) -f CMakeFiles/Makefile2 styx_msgs/CMakeFiles/_styx_msgs_generate_messages_check_deps_Lane.dir/rule
 .PHONY : styx_msgs/CMakeFiles/_styx_msgs_generate_messages_check_deps_Lane.dir/rule
@@ -226,36 +196,6 @@ styx_msgs_generate_messages_py: styx_msgs/CMakeFiles/styx_msgs_generate_messages
 styx_msgs_generate_messages_py/fast:
 	cd "/home/apbraga/Courses/Udacity Autonomous Vehicle Engineer Nanodegree/09 Capstone Project/ros/build" && $(MAKE) -f styx_msgs/CMakeFiles/styx_msgs_generate_messages_py.dir/build.make styx_msgs/CMakeFiles/styx_msgs_generate_messages_py.dir/build
 .PHONY : styx_msgs_generate_messages_py/fast
-
-# Convenience name for target.
-styx_msgs/CMakeFiles/_catkin_empty_exported_target.dir/rule:
-	cd "/home/apbraga/Courses/Udacity Autonomous Vehicle Engineer Nanodegree/09 Capstone Project/ros/build" && $(MAKE) -f CMakeFiles/Makefile2 styx_msgs/CMakeFiles/_catkin_empty_exported_target.dir/rule
-.PHONY : styx_msgs/CMakeFiles/_catkin_empty_exported_target.dir/rule
-
-# Convenience name for target.
-_catkin_empty_exported_target: styx_msgs/CMakeFiles/_catkin_empty_exported_target.dir/rule
-
-.PHONY : _catkin_empty_exported_target
-
-# fast build rule for target.
-_catkin_empty_exported_target/fast:
-	cd "/home/apbraga/Courses/Udacity Autonomous Vehicle Engineer Nanodegree/09 Capstone Project/ros/build" && $(MAKE) -f styx_msgs/CMakeFiles/_catkin_empty_exported_target.dir/build.make styx_msgs/CMakeFiles/_catkin_empty_exported_target.dir/build
-.PHONY : _catkin_empty_exported_target/fast
-
-# Convenience name for target.
-styx_msgs/CMakeFiles/styx_msgs_gennodejs.dir/rule:
-	cd "/home/apbraga/Courses/Udacity Autonomous Vehicle Engineer Nanodegree/09 Capstone Project/ros/build" && $(MAKE) -f CMakeFiles/Makefile2 styx_msgs/CMakeFiles/styx_msgs_gennodejs.dir/rule
-.PHONY : styx_msgs/CMakeFiles/styx_msgs_gennodejs.dir/rule
-
-# Convenience name for target.
-styx_msgs_gennodejs: styx_msgs/CMakeFiles/styx_msgs_gennodejs.dir/rule
-
-.PHONY : styx_msgs_gennodejs
-
-# fast build rule for target.
-styx_msgs_gennodejs/fast:
-	cd "/home/apbraga/Courses/Udacity Autonomous Vehicle Engineer Nanodegree/09 Capstone Project/ros/build" && $(MAKE) -f styx_msgs/CMakeFiles/styx_msgs_gennodejs.dir/build.make styx_msgs/CMakeFiles/styx_msgs_gennodejs.dir/build
-.PHONY : styx_msgs_gennodejs/fast
 
 # Convenience name for target.
 styx_msgs/CMakeFiles/styx_msgs_generate_messages_cpp.dir/rule:
@@ -301,6 +241,21 @@ styx_msgs_geneus: styx_msgs/CMakeFiles/styx_msgs_geneus.dir/rule
 styx_msgs_geneus/fast:
 	cd "/home/apbraga/Courses/Udacity Autonomous Vehicle Engineer Nanodegree/09 Capstone Project/ros/build" && $(MAKE) -f styx_msgs/CMakeFiles/styx_msgs_geneus.dir/build.make styx_msgs/CMakeFiles/styx_msgs_geneus.dir/build
 .PHONY : styx_msgs_geneus/fast
+
+# Convenience name for target.
+styx_msgs/CMakeFiles/_styx_msgs_generate_messages_check_deps_TrafficLight.dir/rule:
+	cd "/home/apbraga/Courses/Udacity Autonomous Vehicle Engineer Nanodegree/09 Capstone Project/ros/build" && $(MAKE) -f CMakeFiles/Makefile2 styx_msgs/CMakeFiles/_styx_msgs_generate_messages_check_deps_TrafficLight.dir/rule
+.PHONY : styx_msgs/CMakeFiles/_styx_msgs_generate_messages_check_deps_TrafficLight.dir/rule
+
+# Convenience name for target.
+_styx_msgs_generate_messages_check_deps_TrafficLight: styx_msgs/CMakeFiles/_styx_msgs_generate_messages_check_deps_TrafficLight.dir/rule
+
+.PHONY : _styx_msgs_generate_messages_check_deps_TrafficLight
+
+# fast build rule for target.
+_styx_msgs_generate_messages_check_deps_TrafficLight/fast:
+	cd "/home/apbraga/Courses/Udacity Autonomous Vehicle Engineer Nanodegree/09 Capstone Project/ros/build" && $(MAKE) -f styx_msgs/CMakeFiles/_styx_msgs_generate_messages_check_deps_TrafficLight.dir/build.make styx_msgs/CMakeFiles/_styx_msgs_generate_messages_check_deps_TrafficLight.dir/build
+.PHONY : _styx_msgs_generate_messages_check_deps_TrafficLight/fast
 
 # Convenience name for target.
 styx_msgs/CMakeFiles/styx_msgs_gencpp.dir/rule:
@@ -407,6 +362,36 @@ styx_msgs_generate_messages_nodejs/fast:
 	cd "/home/apbraga/Courses/Udacity Autonomous Vehicle Engineer Nanodegree/09 Capstone Project/ros/build" && $(MAKE) -f styx_msgs/CMakeFiles/styx_msgs_generate_messages_nodejs.dir/build.make styx_msgs/CMakeFiles/styx_msgs_generate_messages_nodejs.dir/build
 .PHONY : styx_msgs_generate_messages_nodejs/fast
 
+# Convenience name for target.
+styx_msgs/CMakeFiles/styx_msgs_gennodejs.dir/rule:
+	cd "/home/apbraga/Courses/Udacity Autonomous Vehicle Engineer Nanodegree/09 Capstone Project/ros/build" && $(MAKE) -f CMakeFiles/Makefile2 styx_msgs/CMakeFiles/styx_msgs_gennodejs.dir/rule
+.PHONY : styx_msgs/CMakeFiles/styx_msgs_gennodejs.dir/rule
+
+# Convenience name for target.
+styx_msgs_gennodejs: styx_msgs/CMakeFiles/styx_msgs_gennodejs.dir/rule
+
+.PHONY : styx_msgs_gennodejs
+
+# fast build rule for target.
+styx_msgs_gennodejs/fast:
+	cd "/home/apbraga/Courses/Udacity Autonomous Vehicle Engineer Nanodegree/09 Capstone Project/ros/build" && $(MAKE) -f styx_msgs/CMakeFiles/styx_msgs_gennodejs.dir/build.make styx_msgs/CMakeFiles/styx_msgs_gennodejs.dir/build
+.PHONY : styx_msgs_gennodejs/fast
+
+# Convenience name for target.
+styx_msgs/CMakeFiles/styx_msgs_generate_messages.dir/rule:
+	cd "/home/apbraga/Courses/Udacity Autonomous Vehicle Engineer Nanodegree/09 Capstone Project/ros/build" && $(MAKE) -f CMakeFiles/Makefile2 styx_msgs/CMakeFiles/styx_msgs_generate_messages.dir/rule
+.PHONY : styx_msgs/CMakeFiles/styx_msgs_generate_messages.dir/rule
+
+# Convenience name for target.
+styx_msgs_generate_messages: styx_msgs/CMakeFiles/styx_msgs_generate_messages.dir/rule
+
+.PHONY : styx_msgs_generate_messages
+
+# fast build rule for target.
+styx_msgs_generate_messages/fast:
+	cd "/home/apbraga/Courses/Udacity Autonomous Vehicle Engineer Nanodegree/09 Capstone Project/ros/build" && $(MAKE) -f styx_msgs/CMakeFiles/styx_msgs_generate_messages.dir/build.make styx_msgs/CMakeFiles/styx_msgs_generate_messages.dir/build
+.PHONY : styx_msgs_generate_messages/fast
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -418,17 +403,13 @@ help:
 	@echo "... install"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
-	@echo "... test"
-	@echo "... styx_msgs_generate_messages"
-	@echo "... _styx_msgs_generate_messages_check_deps_TrafficLight"
 	@echo "... _styx_msgs_generate_messages_check_deps_Lane"
 	@echo "... list_install_components"
 	@echo "... styx_msgs_generate_messages_py"
-	@echo "... _catkin_empty_exported_target"
-	@echo "... styx_msgs_gennodejs"
 	@echo "... styx_msgs_generate_messages_cpp"
 	@echo "... _styx_msgs_generate_messages_check_deps_Waypoint"
 	@echo "... styx_msgs_geneus"
+	@echo "... _styx_msgs_generate_messages_check_deps_TrafficLight"
 	@echo "... styx_msgs_gencpp"
 	@echo "... _styx_msgs_generate_messages_check_deps_TrafficLightArray"
 	@echo "... styx_msgs_genlisp"
@@ -436,6 +417,9 @@ help:
 	@echo "... styx_msgs_generate_messages_lisp"
 	@echo "... styx_msgs_genpy"
 	@echo "... styx_msgs_generate_messages_nodejs"
+	@echo "... styx_msgs_gennodejs"
+	@echo "... styx_msgs_generate_messages"
+	@echo "... test"
 .PHONY : help
 
 
