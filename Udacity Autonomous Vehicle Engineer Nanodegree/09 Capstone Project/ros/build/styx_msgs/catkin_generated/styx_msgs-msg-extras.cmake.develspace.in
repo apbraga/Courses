@@ -1,0 +1,2 @@
+set(styx_msgs_MESSAGE_FILES "/home/apbraga/Courses/Udacity Autonomous Vehicle Engineer Nanodegree/09 Capstone Project/ros/src/styx_msgs/msg/TrafficLight.msg;/home/apbraga/Courses/Udacity Autonomous Vehicle Engineer Nanodegree/09 Capstone Project/ros/src/styx_msgs/msg/TrafficLightArray.msg;/home/apbraga/Courses/Udacity Autonomous Vehicle Engineer Nanodegree/09 Capstone Project/ros/src/styx_msgs/msg/Waypoint.msg;/home/apbraga/Courses/Udacity Autonomous Vehicle Engineer Nanodegree/09 Capstone Project/ros/src/styx_msgs/msg/Lane.msg")
+set(styx_msgs_SERVICE_FILES "")

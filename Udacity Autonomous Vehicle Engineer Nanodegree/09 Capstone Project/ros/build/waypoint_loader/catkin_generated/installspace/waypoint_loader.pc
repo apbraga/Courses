@@ -1,0 +1,8 @@
+prefix=/home/apbraga/Courses/Udacity Autonomous Vehicle Engineer Nanodegree/09 Capstone Project/ros/install
+
+Name: waypoint_loader
+Description: Description of waypoint_loader
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 
